@@ -3,16 +3,17 @@
 
 ### Integrantes
 * Javier Valencia Goujon  - 123227
-* Ángel Rafael Ortega Ramirez - 123972
+* Ángel Rafael Ortega Ramírez - 123972
 * Diego Villa Lizárraga - 191343
 * Juan Pablo Herrera Musi -108353
 
 ## Descripción del trabajo  
-Para el proyecto se genera una base de datos de postgreSQL usando los datos de Museum of Modern Art sobre aritstas y obras. Los datos originales están disponibles en el [repsotorio del MoMa](https://www.google.comhttps://github.com/MuseumofModernArt/collection).  
+Para el proyecto se genera una base de datos de postgreSQL usando los datos de Museum of Modern Art sobre aritstas y obras. Los datos originales están disponibles en el [repsotorio del MoMa](https://github.com/MuseumofModernArt/collection) [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.3558822.svg)](http://dx.doi.org/10.5281/zenodo.3558822).  
 El trabajo consiste en un pipeline en el que, teniendo los datos en la ubicación indicada, se genera una base de datos, se cargan todos los registros de la base y se proponen los esquemas `raw`, `cleaned` y `semantic` para las tablas.
 En el esquema `raw` se cargan los datos de las tablas a postgreSQL. Los datos de alimentan a la base en columnas tipo texto, no se hace ningún cambio.  
-Teneiendo los datos en la base de datos se hace una limieza para dejar llevarlos a su forma `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis, imputar los datos en las columnas que requerien limpieza para su procesamiento.  
-Finalmente, el esquema `semantic` propone las columnas finales antes........   
+Teniendo los datos en la base de datos se hace una limieza para dejar llevarlos a su forma `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis, imputar los datos en las columnas que requieren limpieza para su procesamiento.  
+Finalmente, el esquema `semantic` propone tres tablas relacionadas con el problema que se busca resolver, que sería de predecir el número de obras que realizaría un artista en la siguiente década. Con base en este problema, se proponen tres tablas en este esquema: la tabla de entidades `artists`, la tabla de eventos `event_dead`, donde se considera el evento de que el artista fallece y la tabla de `event_create_artworks`, considerando el evento de que el artista crea una nueva obra.
+
 
 ## Instalación
 1. Abrir la máquina virtual de vagrant destinada al curso.
@@ -29,7 +30,8 @@ git clone https://github.com/Pilo1961/proyecto_prog_ds
 ```
 cd proyecto_prog_ds
 ```
-Nota: Si no tiene permisos dados por el administrador de la máquina virtual tendrá que clonar el repositorio desde la máquina local en la carpeta compartida entre la máquina local y la virtual y volver a la ejecución en el directorio indicado dentro de la máquina virtual.
+Nota: Si no tiene permisos dados por el administrador de la máquina virtual tendrá que clonar el repositorio desde la máquina local en la carpeta compartida entre la máquina local y la virtual y volver a la ejecución en el directorio indicado dentro de la máquina virtual.  
+
 5. Ejecutar el archivo pipeline
 ```
 sh pipeline.sh
@@ -48,7 +50,7 @@ El pipeline ejecuta la siguiente secuencia:
 ## Conexión
 Una vez instalada la base de datos el usuario se puede conectar usando el usuario postgres:
 ```
-sudo su postgreSQL
+sudo su postgre
 ```
 Desde ese usuario llamamos al cliente a conectarse a la base que se acaba de crear.
 ```
@@ -156,3 +158,60 @@ En las columnas que no tienen comentarios solamente cambió el nombre de la colu
 Las dos tablas se unen por medio de la columna artist, en ambos casos la columna es un identificador único para el artista y liga a las dos tablas. Para cada entrada en la tabla Artists hay uno o más en la tabla Artworks.
 
 ### Esquema semantic
+
+En el caso del esquema semantic, se utilizará el script `to_semantic.sql` se preparó la base de datos en un formato que se utilizará para resolver el problema sobre la predicción de cuántas obras creará el artista tomando en cuenta el tipo de obra, los atributos propios del artista y la cantidad de obras que creó en una década.
+
+Con base en esto, se definen dos eventos posibles:
+
+* Que el artista cree una obra
+* Que el artista muera
+
+Se generaron tres tablas en esta etapa para poder lograr un mayor alcance en la exploración del problema:
+
+La tabla de entidad `artists` con las siguientes variables:
+
+* artist - es el identificador del artista.
+* nationality - indica la nacionalidad del artista.
+* birth_year - año en que nació el artista.
+* gender - el género del artista (masculino o femenino)
+
+-- Indices
+* semantic_entities_artists_ix
+
+La tabla de `event_dead`, que es la tabla de eventos sobre el año de muerte del artista. Esta tabla contiene las siguientes variables:
+* artist - identificador del artista
+* artwork - identificador del artwork
+* dead_year - año en que murió el artista
+
+
+ -- Indices:
+* semantic_event_dead_artist_ix
+* semantic_event_dead_year_ix
+
+
+
+Para la segunda tabla, `event_create_artworks` contiene los eventos sobre si el artista crea una obra en cierto año, se conforma por las siguientes variables:
+
+* artist - identificador del artista.
+* artwork - identificador de la obra.
+* artwork_year - año en que fue creada la obra.
+* artwork_decade - década de la obra.
+* artwork_century - siglo de la obra.
+* classification - la categoría de la obra.
+
+-- Indices:
+* semantic_event_create_artworks_artist_ix
+* semantic_event_create_artworks_artwork_ix
+* semantic_event_create_artworks_artwork_year_ix
+* semantic_event_create_artworks_artwork_decade_ix
+* semantic_event_create_artworks_artwork_century_ix
+
+se tomará en cuenta al artista como la entidad, agregando como evento la década en que se está llevando a cabo
+
+### Cohort
+
+Para la elaboración del cohort, se utilizará una variable dinámica que en cada periodo determina si el artista está vivo, de modo que una de las variables de gran importancia aquí sería `e_type`.
+
+* e_type - nos indica si el artista se encuentra muerto, vivo o si se desconoce la información.
+
+Durante la creación de esta tabla, se creó la variable e_type con el objetivo de clasificar si el artista esta vivo, muerto, o se desconoce la información. No usamos el tipo booleano porque tenemos tres categorías. Es importante mencionar que esta variable deberá ser dinámica debido a que podrían generarse errores en el momento de intentar realizar predicciones.
