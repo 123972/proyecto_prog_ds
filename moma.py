@@ -3,11 +3,16 @@
 
 import psycopg2
 import psycopg2.extras
+
 import sys
 from datetime import timedelta
+
 import click
+
 import io
+
 from dynaconf import settings
+
 from pathlib import Path
 
 @click.group()
@@ -71,9 +76,11 @@ def to_cleaned(ctx):
 
 @moma.command()
 @click.pass_context
-def to_semantic():
+def to_semantic(ctx):
     query = ctx.obj['queries'].get('to_semantic')
-    print(query)
+    conn = ctx.obj['conn']
+    with conn.cursor() as cur:
+        cur.execute(query)
 
 @moma.command()
 @click.pass_context
