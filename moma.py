@@ -68,7 +68,7 @@ def to_cleaned(ctx):
     conn = ctx.obj['conn']
     with conn.cursor() as cur:
         cur.execute(query)
-        
+
 @moma.command()
 @click.pass_context
 def to_semantic():

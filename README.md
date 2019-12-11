@@ -18,7 +18,7 @@ Finalmente, el esquema `semantic` propone las columnas finales antes........
 1. Abrir la máquina virtual de vagrant destinada al curso.
 2. Navegar hasta la carpeta datos (dentro de la máquina virtual)  
 ```
-cd ~/data
+cd ../../data
 ```
 
 3. Clonar el repositorio
@@ -29,6 +29,7 @@ git clone https://github.com/Pilo1961/proyecto_prog_ds
 ```
 cd proyecto_prog_ds
 ```
+Nota: Si no tiene permisos dados por el administrador de la máquina virtual tendrá que clonar el repositorio desde la máquina local en la carpeta compartida entre la máquina local y la virtual y volver a la ejecución en el directorio indicado dentro de la máquina virtual.
 5. Ejecutar el archivo pipeline
 ```
 sh pipeline.sh

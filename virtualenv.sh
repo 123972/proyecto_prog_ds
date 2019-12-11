@@ -4,7 +4,7 @@
 #----------------------------
 #crea un ambiente virtual
 #----------------------------
-pyenv virtualenv 3.7.3 moma
+pyenv virtualenv 3.7.3 moma-ve
 echo 'moma-ve' > .python-version
 
 pip install --upgrade pip
