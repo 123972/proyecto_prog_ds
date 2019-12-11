@@ -18,16 +18,21 @@ Finalmente, el esquema `semantic` propone las columnas finales antes........
 1. Abrir la máquina virtual de vagrant destinada al curso.
 2. Navegar hasta la carpeta datos (dentro de la máquina virtual)  
 ```
- cd ~/data```
+cd ~/data
+```
+
 3. Clonar el repositorio
 ```
-git clone https://github.com/Pilo1961/proyecto_prog_ds```
+git clone https://github.com/Pilo1961/proyecto_prog_ds
+```
 4. Posicionarse en la carpeta raíz del repositorio
 ```
-cd proyecto_prog_ds```
+cd proyecto_prog_ds
+```
 5. Ejecutar el archivo pipeline
 ```
-sh pipeline.sh```
+sh pipeline.sh
+ ```
 
 El pipeline ejecuta la siguiente secuencia:
 * Descarga los datos.
@@ -42,7 +47,8 @@ El pipeline ejecuta la siguiente secuencia:
 ## Conexión
 Una vez instalada la base de datos el usuario se puede conectar usando el comandos:
 ```
-psql -h 0.0.0.0 -U moma -d moma -W ```
+psql -h 0.0.0.0 -U moma -d moma -W
+ ```
 Este comando requerirá escribir el password dentro de la terminal. La contraseña requerida para el usuario es `1`. Una vez conectados a la base de datos utilizando el cliente `psql` podremos navegar utilizando los funciones de `SQL` para hacer consultas sobre las tablas, los esquemas y los regitros.
 
 ## Datos
