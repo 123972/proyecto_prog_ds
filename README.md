@@ -2,13 +2,20 @@
 ## Proyecto final
 
 ### Integrantes
-* Javier Valencia Goujon  
-* Ángel Rafael   
-* Diego Villa Lizárraga  
-* Juan Pablo Herrera Musi
+* Javier Valencia Goujon  - 123227
+* Ángel Rafael Ortega Ramirez - 123972
+* Diego Villa Lizárraga - 191343
+* Juan Pablo Herrera Musi -108353
 
-##Instalación
-1. Abrir la máquina virtual de vagrant  
+## Descripción del trabajo  
+Para el proyecto se genera una base de datos de postgreSQL usando los datos de Museum of Modern Art sobre aritstas y obras. Los datos originales están disponibles en el [repsotorio del MoMa](https://www.google.comhttps://github.com/MuseumofModernArt/collection).  
+El trabajo consiste en un pipeline en el que, teniendo los datos en la ubicación indicada, se genera una base de datos, se cargan todos los registros de la base y se proponen los esquemas `raw`, `cleaned` y `semantic` para las tablas.
+En el esquema `raw` se cargan los datos de las tablas a postgreSQL. Los datos de alimentan a la base en columnas tipo texto, no se hace ningún cambio.  
+Teneiendo los datos en la base de datos se hace una limieza para dejar llevarlos a su forma `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis, imputar los datos en las columnas que requerien limpieza para su procesamiento.  
+Finalmente, el esquema `semantic` propone las columnas finales antes........   
+
+## Instalación
+1. Abrir la máquina virtual de vagrant destinada al curso.
 2. Navegar hasta la carpeta datos (dentro de la máquina virtual)  
 `cd ../../data`
 3. Clonar el repositorio
@@ -18,33 +25,20 @@
 5. Ejecutar el archivo pipeline
 `sh pipeline.sh`
 
+El pipeline ejecuta la siguiente secuencia:
+* Descarga los datos.
+* Crea el usuario y la base de datos.
+* Crea un ambiente virtual e instala las dependencias necesarias.
+* Corre los scripts de SQL que generan:  
+  * Los esquemas,
+  * Las tablas,
+  * Carga los datos,
+  * Genera las tablas de cada esquema.
 
-### Inicializar una máquina virtual
+## Conectarse a la base
+Una vez instalada la base de datos el usuario se puede conectar usando el comandos:
+`psql -h 0.0.0.0 -U moma -d moma -W`
 
-### Clonar el repositorio
-
-### Generar de la base de datos
-
-
-### Conectarse a la base
-
-
-
-### Crear tablas
-
-
-
-
-
-
-
-
-## Descripción del trabajo  
-Para el proyecto se genera una base de datos de postgreSQL usando los datos de Museum of Modern Art sobre aritstas y obras. Los datos originales están disponibles en el [repsotorio del MoMa](https://www.google.comhttps://github.com/MuseumofModernArt/collection).  
-El trabajo consiste en un pipeline en el que, teniendo los datos en la ubicación indicada, se genera una base de datos, se cargan todos los registros de la base y se proponen los esquemas `raw`, `cleaned` y `semantic` para las tablas.
-En el esquema `raw` se cargan los datos de las tablas a postgreSQL. Los datos de alimentan a la base en columnas tipo texto, no se hace ningún cambio.  
-Teneiendo los datos en la base de datos se hace una limieza para dejar llevarlos a su forma `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis, imputar los datos en las columnas que requerien limpieza para su procesamiento.  
-Finalmente, el esquema `semantic` propone las columnas finales antes........   
 
 ## Datos
 El Museo de Arte Moderno (MoMA) lleva coleccionando obras de arte desde 1929. Cuenta con un registro de 81,866 obras de 26,377 artistas. El museo hizo pública la información para promover la investigación en el tema. LA información está disponible por medio del [repsotorio](https://www.google.comhttps://github.com/MuseumofModernArt/collection)  como 2 archivos `.csv`, uno para `artistas` y el otro para las `obras`.
@@ -68,18 +62,18 @@ Artworks con 138,125 observaciones.
 * Title - Título de la obra.  
 * Artist - Nombre del artista o artistas, si hay mas de uno se separa por `,`.
 * ConstituentID - Identificador de la tabla artistas. Si hay más de un artista se separa con `,`.
-* ArtistBio - Incluye país de nacimiento, fecha de nacimiento y fecha de muerte. El país está dividido por `,` y las fechas por `-`. Hay algunos datos faltantes y aglúnas observaciones sin información.  
+* ArtistBio - Incluye país de nacimiento, fecha de nacimiento y fecha de muerte. El país está dividido por `,` y las fechas por `-`. Hay algunos datos faltantes y aglunas observaciones sin información.  
 * Nationality - Nacionalidad del artista.   
 * BeginDate - Fecha de (los) nacimeinto(s).  
 * EndDate - Fecha de muerte de los artistas.  
-* Gender - Gernero de los artistas.
+* Gender - Genero de los artistas.
 * Medium - Técnica de la obra.
 * Dimensions - Dimensiones de la obra.
 * CreditLine - Procedencia de los fondos para adquirir la obra.
 * AccesionNumber -
 * Classification - Tipo de obra.
 * Department - Tema de obra.
-* DateAcquiered - Fecha de adquisisción.
+* DateAcquiered - Fecha de adquisición.
 * Cataloged - Indicador de si la obra está catalogada o no.
 * ObjectID - Identificador del objeto.
 * URL - Página de internet con información de la obra.
@@ -87,7 +81,7 @@ Artworks con 138,125 observaciones.
 *	Circumference (cm) - Medida de circunferencia en centímetros para obras circulares, nulo en otros casos.
 *	Depth (cm)	- Profundidad de la obra en centímetros. Si no aplica se marca como nulo.
 * Diameter (cm) - Diámetro de la obra en centímetros. Si no aplica se marca como nulo.
-* Height (cm)	 - Altura de la obra en centimetros. Si no aplica se marca como nulo.
+* Height (cm)	 - Altura de la obra en centímetros. Si no aplica se marca como nulo.
 * Length (cm) - Largo de la obra en centímetros. Si no aplica se marca como nulo.
 * Weight (kg) - Peso de la obra en kilogramos. Si no aplica se marca como nulo.
 *	Width (cm) - Ancho de la obra en centímetros. Si no aplica se marca como nulo.
