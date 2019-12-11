@@ -1,4 +1,4 @@
 [default]
 dburl = 'postgresql://service=moma'
-pgconnstring = 'user=moma dbname=moma port=5432 host=0.0.0.0 password=pwd'
+pgconnstring = 'user=moma dbname=moma port=5432 host=0.0.0.0 password=1'
 momadir = '/data/proyecto_prog_ds/data'

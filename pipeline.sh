@@ -3,14 +3,14 @@
 #----------------------------
 #descarga los datos
 #----------------------------
-#wget -O /data/proyecto_prog_ds/data/Artists.csv "https://media.githubusercontent.com/media/MuseumofModernArt/collection/master/Artists.csv"
-#wget -O /data/proyecto_prog_ds/data/Artworks.csv "https://media.githubusercontent.com/media/MuseumofModernArt/collection/master/Artworks.csv"
+wget -O /data/proyecto_prog_ds/data/Artists.csv "https://media.githubusercontent.com/media/MuseumofModernArt/collection/master/Artists.csv"
+wget -O /data/proyecto_prog_ds/data/Artworks.csv "https://media.githubusercontent.com/media/MuseumofModernArt/collection/master/Artworks.csv"
 
 #----------------------------
 #crea el rol moma
 #----------------------------
-sudo -i -u postgres psql -c "CREATE USER moma WITH PASSWORD 'pwd';"
-echo "usuario moma creado con password pwd"
+sudo -i -u postgres psql -c "CREATE USER moma WITH PASSWORD '1';"
+echo "usuario moma creado con password 1"
 
 #----------------------------
 #crea la base de datos

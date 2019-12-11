@@ -2,20 +2,33 @@
 ## Proyecto final
 
 ### Integrantes
-* Javier Valencia Goujon  123227
+* Javier Valencia Goujon  
 * Ángel Rafael   
 * Diego Villa Lizárraga  
 * Juan Pablo Herrera Musi
 
 ##Instalación
-
+1. Abrir la máquina virtual de vagrant  
+2. Navegar hasta la carpeta datos (dentro de la máquina virtual)  
+`cd ../../data`
+3. Clonar el repositorio
+`git clone https://github.com/Pilo1961/proyecto_prog_ds`
+4. Posicionarse en la carpeta raíz del repositorio
+`cd proyecto_prog_ds`  
+5. Ejecutar el archivo pipeline
+`sh pipeline.sh`
 
 
 ### Inicializar una máquina virtual
 
 ### Clonar el repositorio
 
-### Generar usuarios
+### Generar de la base de datos
+
+
+### Conectarse a la base
+
+
 
 ### Crear tablas
 
