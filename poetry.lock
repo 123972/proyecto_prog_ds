@@ -1,0 +1,65 @@
+[[package]]
+category = "main"
+description = "Composable command line interface toolkit"
+name = "click"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "7.0"
+
+[[package]]
+category = "main"
+description = "The dynamic configurator for your Python Project"
+name = "dynaconf"
+optional = false
+python-versions = "*"
+version = "2.2.1"
+
+[package.dependencies]
+click = "*"
+python-box = "*"
+python-dotenv = "*"
+toml = "*"
+
+[[package]]
+category = "main"
+description = "psycopg2 - Python-PostgreSQL Database Adapter"
+name = "psycopg2"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
+version = "2.8.4"
+
+[[package]]
+category = "main"
+description = "Advanced Python dictionaries with dot notation access"
+name = "python-box"
+optional = false
+python-versions = "*"
+version = "3.4.6"
+
+[[package]]
+category = "main"
+description = "Add .env support to your django/flask apps in development and deployments"
+name = "python-dotenv"
+optional = false
+python-versions = "*"
+version = "0.10.3"
+
+[[package]]
+category = "main"
+description = "Python Library for Tom's Obvious, Minimal Language"
+name = "toml"
+optional = false
+python-versions = "*"
+version = "0.10.0"
+
+[metadata]
+content-hash = "660107d9b30a7e454f529ae602e8b99c1cbe0d32963d2353814d3df7590adecb"
+python-versions = "^3.7"
+
+[metadata.hashes]
+click = ["2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13", "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"]
+dynaconf = ["52e3e41290763e405723b13a893592f8bca06f676854e59623052ffeee1a658f", "75691e9dd4093a1a2dc530d33369ae9296cfba30d29b72b00715dfb98b3f82e4"]
+psycopg2 = ["4212ca404c4445dc5746c0d68db27d2cbfb87b523fe233dc84ecd24062e35677", "47fc642bf6f427805daf52d6e52619fe0637648fe27017062d898f3bf891419d", "72772181d9bad1fa349792a1e7384dde56742c14af2b9986013eb94a240f005b", "8396be6e5ff844282d4d49b81631772f80dabae5658d432202faf101f5283b7c", "893c11064b347b24ecdd277a094413e1954f8a4e8cdaf7ffbe7ca3db87c103f0", "92a07dfd4d7c325dd177548c4134052d4842222833576c8391aab6f74038fc3f", "965c4c93e33e6984d8031f74e51227bd755376a9df6993774fd5b6fb3288b1f4", "9ab75e0b2820880ae24b7136c4d230383e07db014456a476d096591172569c38", "b0845e3bdd4aa18dc2f9b6fb78fbd3d9d371ad167fd6d1b7ad01c0a6cdad4fc6", "dca2d7203f0dfce8ea4b3efd668f8ea65cd2b35112638e488a4c12594015f67b", "ed686e5926929887e2c7ae0a700e32c6129abb798b4ad2b846e933de21508151", "ef6df7e14698e79c59c7ee7cf94cd62e5b869db369ed4b1b8f7b729ea825712a", "f898e5cc0a662a9e12bde6f931263a1bbd350cfb18e1d5336a12927851825bb6"]
+python-box = ["694a7555e3ff9fbbce734bbaef3aad92b8e4ed0659d3ed04d56b6a0a0eff26a9", "a71d3dc9dbaa34c8597d3517c89a8041bd62fa875f23c0f3dad55e1958e3ce10"]
+python-dotenv = ["debd928b49dbc2bf68040566f55cdb3252458036464806f4094487244e2a4093", "f157d71d5fec9d4bd5f51c82746b6344dffa680ee85217c123f4a0c8117c4544"]
+toml = ["229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c", "235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e", "f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"]
