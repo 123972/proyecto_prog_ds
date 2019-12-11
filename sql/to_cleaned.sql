@@ -46,4 +46,5 @@ create table cleaned.Artworks as (
     from raw.Artworks a, unnest(string_to_array(a."ConstituentID", ',')) s(artist)
   );
 
+create index cleaned_artworks_artist_ix on cleaned.Artworks(artist);
 create index cleaned_artworks_artwork_ix on cleaned.Artworks(artwork);
