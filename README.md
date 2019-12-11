@@ -46,7 +46,11 @@ El pipeline ejecuta la siguiente secuencia:
   * Genera las tablas de cada esquema.
 
 ## Conexión
-Una vez instalada la base de datos el usuario se puede conectar usando el comandos:
+Una vez instalada la base de datos el usuario se puede conectar usando el usuario postgres:
+```
+sudo su postgreSQL
+```
+Desde ese usuario llamamos al cliente a conectarse a la base que se acaba de crear.
 ```
 psql -h 0.0.0.0 -U moma -d moma -W
  ```
@@ -148,5 +152,7 @@ La tabla `Artworks` queda con 152,392 registros con las siguiente columnas.
 *	duration_sec
 
 En las columnas que no tienen comentarios solamente cambió el nombre de la columna.  
+
+Las dos tablas se unen por medio de la columna artist, en ambos casos la columna es un identificador único para el artista y liga a las dos tablas. Para cada entrada en la tabla Artists hay uno o más en la tabla Artworks.
 
 ### Esquema semantic
