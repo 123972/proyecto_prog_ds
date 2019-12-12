@@ -8,11 +8,11 @@
 * Juan Pablo Herrera Musi -108353
 
 ## Descripción del trabajo  
-Para el proyecto se genera una base de datos de postgreSQL usando los datos de Museum of Modern Art sobre aritstas y obras. Los datos originales están disponibles en el [repsotorio del MoMa](https://github.com/MuseumofModernArt/collection) [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.3558822.svg)](http://dx.doi.org/10.5281/zenodo.3558822).  
-El trabajo consiste en un pipeline en el que, teniendo los datos en la ubicación indicada, se genera una base de datos, se cargan todos los registros de la base y se proponen los esquemas `raw`, `cleaned` y `semantic` para las tablas.
-En el esquema `raw` se cargan los datos de las tablas a postgreSQL. Los datos de alimentan a la base en columnas tipo texto, no se hace ningún cambio.  
-Teniendo los datos en la base de datos se hace una limieza para dejar llevarlos a su forma `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis, imputar los datos en las columnas que requieren limpieza para su procesamiento.  
-Finalmente, el esquema `semantic` propone tres tablas relacionadas con el problema que se busca resolver, que sería de predecir el número de obras que realizaría un artista en la siguiente década. Con base en este problema, se proponen tres tablas en este esquema: la tabla de entidades `artists`, la tabla de eventos `event_dead`, donde se considera el evento de que el artista fallece y la tabla de `event_create_artworks`, considerando el evento de que el artista crea una nueva obra.
+El desarrollo del proyecto consiste en generar una base de datos postgreSQL usando los datos del Museum of Modern Art (MoMA) sobre artistas y obras. Los datos originales están disponibles en el [repsotorio del MoMA](https://github.com/MuseumofModernArt/collection) y son libres para descargarse bajo la licencia  [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.3558822.svg)](http://dx.doi.org/10.5281/zenodo.3558822).  
+El trabajo consiste en un pipeline que descarga los datos, crea el rol `moma` y  la base de datos `moma`, carga todos los registros de la base y genera los esquemas `raw`, `cleaned` y `semantic`.
+En el esquema `raw` se cargan los datos de las tablas a postgreSQL, los datos de alimentan a la base en columnas tipo texto y no se hace ningún cambio respecto a los archivos originales.  
+Teniendo los datos cargados en la base de datos se hace una limpieza para llevarlos al  esquema `cleaned`. Este proceso consta de seleccionar las columnas relevantes para el análisis e imputar los datos en las columnas que requieren limpieza para su procesamiento.  
+Finalmente, el esquema `semantic` propone tres tablas relacionadas con el planteamiento del problema. Buscamos predecir el número de obras que realizará un artista en una década posterior. Con base en este problema, se proponemos tres tablas: la tabla de entidades `artists`, la tabla de eventos `event_dead`, donde se considera el evento de que el artista fallece y la tabla de `event_create_artworks`, considerando el evento de que el artista crea una nueva obra.
 
 
 ## Instalación
@@ -26,16 +26,17 @@ cd ../../data
 ```
 git clone https://github.com/Pilo1961/proyecto_prog_ds
 ```
+Nota: Si no tiene permisos dados por el administrador de la máquina virtual tendrá que clonar el repositorio desde la máquina local en la carpeta compartida entre la máquina local y la virtual y volver a la ejecución en el directorio indicado dentro de la máquina virtual.  
+
 4. Posicionarse en la carpeta raíz del repositorio
 ```
 cd proyecto_prog_ds
 ```
-Nota: Si no tiene permisos dados por el administrador de la máquina virtual tendrá que clonar el repositorio desde la máquina local en la carpeta compartida entre la máquina local y la virtual y volver a la ejecución en el directorio indicado dentro de la máquina virtual.  
 
 5. Ejecutar el archivo pipeline
 ```
 sh pipeline.sh
- ```
+```
 
 El pipeline ejecuta la siguiente secuencia:
 * Descarga los datos.
@@ -48,18 +49,40 @@ El pipeline ejecuta la siguiente secuencia:
   * Genera las tablas de cada esquema.
 
 ## Conexión
-Una vez instalada la base de datos el usuario se puede conectar usando el usuario postgres:
+Una vez instalada la base de datos el usuario se puede conectar usando el usuario `postgres`:
 ```
-sudo su postgre
+sudo su postgres
 ```
 Desde ese usuario llamamos al cliente a conectarse a la base que se acaba de crear.
 ```
 psql -h 0.0.0.0 -U moma -d moma -W
  ```
-Este comando requerirá escribir el password dentro de la terminal. La contraseña requerida para el usuario es `1`. Una vez conectados a la base de datos utilizando el cliente `psql` podremos navegar utilizando los funciones de `SQL` para hacer consultas sobre las tablas, los esquemas y los regitros.
+Este comando requerirá escribir el password dentro de la terminal. La contraseña requerida para el usuario es `1`. Una vez conectados a la base de datos utilizando el cliente `psql` podremos navegar utilizando los funciones de `SQL` para hacer consultas sobre las tablas, los esquemas y los registros.
+
+Algunos comandos que podemos usar son:
+```
+\du
+```
+Muestra los roles que se crearon.
+```
+\dn
+```
+Muestra los esquemas creados.
+```
+\dt raw.
+```
+Muestra las tablas creadas para el esquema indicado. Es posible cambiar `raw` por `semantic` o `cleaned` para mostrar las tablas del otro esquema.
+```
+\d raw.
+```
+Muestra las columnas de cada tabla y los índices para el esquema indicado. Es posible cambiar `raw` por `semantic` o `cleaned` para mostrar las tablas del otro esquema.
+```
+\select * from semantic.entities limit 10;  
+```
+Usamos este comando para visualizar registros de la tabla indicada. Es posible cambiar la tabla por alguna otra de las tablas creadas para ver sus registros.
 
 ## Datos
-El Museo de Arte Moderno ([MoMA](https://www.moma.org/)) lleva coleccionando obras de arte desde 1929. Cuenta con un registro de 81,866 obras de 26,377 artistas. El museo hizo pública la información [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3558822.svg)](https://doi.org/10.5281/zenodo.3558822) para promover la investigación en el tema. La información está disponible por medio del [repsotorio](https://www.google.comhttps://github.com/MuseumofModernArt/collection)  como 2 archivos `.csv`, uno para `artistas` y el otro para las `obras`.
+El Museo de Arte Moderno ([MoMA](https://www.moma.org/)) lleva coleccionando obras de arte desde 1929. Cuenta con un registro de 81,866 obras de 26,377 artistas. El museo hizo pública la información sobre sus obras y aritistas  para promover la investigación en el tema. La información está disponible por medio del [repsotorio](https://www.google.comhttps://github.com/MuseumofModernArt/collection)  como 2 archivos `.csv`, uno para `artistas` y el otro para las `obras`.
 
 ### Esquema raw
 En este esquema los datos se cargan a la base de datos MoMA tal cual se tienen en el archivo `.csv` de origen. Se generan dos tablas, una correspondiente al archivo de origen que contiene la información de los artistas y la otra correspondiente a las obras. A todas las columnas se les indica el tipo de dato `varchar`.   
@@ -109,9 +132,9 @@ Artworks con 138,025 observaciones.
 ### Esquema cleaned
 En esta fase se utiliza el script `to-cleaned.sql` para limpiar las tablas del esquema `raw`. Se revisan todas las columnas y se toman acciones de acuerdo a la información que contiene cada una de ellas.
 
-En la tabla Artists se elimina la colima `Artist_Bio` que contiene información que tenemos en otras columnas.
+En la tabla `Artists` se elimina la colima `Artist_Bio` que contiene información que tenemos en otras columnas.
 
-La tabla Artists queda con 15,790 artistas.
+La tabla `Artists` queda con 15,790 artistas.
 * artist - Cambio de nombre de ConstituentID. Se asigna el tipo `int`.
 * name
 * nationality
@@ -121,16 +144,14 @@ La tabla Artists queda con 15,790 artistas.
 * Wiki QID
 * ULAN - Se asigna el tipo `int`.  
 
-Para la tabla Artworks
-Se remueve la columna `ArtistBio` por tener información repetida en otras columnas de forma desordenada.
-En la tabla `Artworks` se realizan los siguientes cambios:  
+Para la tabla `Artworks` se realizan los siguientes cambios:  
 * Se eliminan las columnas `Artist`, `ArtistBio`, `Nationality`, `BeginDate`, `EndDate`, `Gender`, `Dimensions` de la tabla `Artworks` por considerarse información repetida en ambas tablas y pertenecer a información de artistas.  
-* En la columna artist de la tabla `raw` se enlistan todos los artistas que contribuyeron a una obra (puede ser mas de uno). Como parte de la limpieza de la tabla se separa esa información en observaciones independientes, se genera una observación por artista por obra.
+* En la columna `artist` de la tabla `raw` se enlistan todos los artistas que contribuyeron a una obra (puede ser mas de uno). Como parte de la limpieza de la tabla se separa esa información en observaciones independientes, se genera una observación por artista por obra.
 * La columna `date_acquired` se limpia y se pone en formato fecha.
-* La columna catalogued se usa con tipos de datos `booleano`. Se imputa `1` para `yes` y `0` para `no`
+* La columna `catalogued` se usa con tipos de datos `booleano`. Se imputa `1` para `yes` y `0` para `no`
 * La columna `date` se toma como `int` y se conserva solamente el año.
 
-La tabla `Artworks` queda con 152,392 registros con las siguiente columnas.
+Tras los cambios la tabla `Artworks` queda con 152,392 registros con las siguiente columnas.
 * title - Título de la obra.  
 * artist - Se renombra la columna ConstituentID y se le asigna el tipo `int`.
 * medium  
@@ -155,42 +176,38 @@ La tabla `Artworks` queda con 152,392 registros con las siguiente columnas.
 
 En las columnas que no tienen comentarios solamente cambió el nombre de la columna.  
 
-Las dos tablas se unen por medio de la columna artist, en ambos casos la columna es un identificador único para el artista y liga a las dos tablas. Para cada entrada en la tabla Artists hay uno o más en la tabla Artworks.
+Las dos tablas se unen por medio de la columna `artist`, en ambos casos la columna es un identificador único para el artista y liga a las dos tablas. Para cada entrada en la tabla `Artists` hay uno o más en la tabla `Artworks`.
 
 ### Esquema semantic
-
-En el caso del esquema semantic, se utilizará el script `to_semantic.sql` se preparó la base de datos en un formato que se utilizará para resolver el problema sobre la predicción de cuántas obras creará el artista tomando en cuenta el tipo de obra, los atributos propios del artista y la cantidad de obras que creó en una década.
+El esquema semantic se construye con el script `to_semantic.sql`. Se preparó la base de datos en un formato que se utilizará para resolver el problema sobre la predicción de cuántas obras creará el artista tomando en cuenta el tipo de obra, los atributos propios del artista y la cantidad de obras que creó en una década.
 
 Con base en esto, se definen dos eventos posibles:
-
 * Que el artista cree una obra
 * Que el artista muera
 
 Se generaron tres tablas en esta etapa para poder lograr un mayor alcance en la exploración del problema:
 
-La tabla de entidad `artists` con las siguientes variables:
+La tabla de entidades `artists` con las siguientes variables:
 
 * artist - es el identificador del artista.
 * nationality - indica la nacionalidad del artista.
 * birth_year - año en que nació el artista.
 * gender - el género del artista (masculino o femenino)
 
--- Indices
+ -- Indices
 * semantic_entities_artists_ix
 
-La tabla de `event_dead`, que es la tabla de eventos sobre el año de muerte del artista. Esta tabla contiene las siguientes variables:
+La tabla de eventos `event_dead`, que es la tabla de eventos sobre el año de muerte del artista. Esta tabla contiene las siguientes variables:
 * artist - identificador del artista
 * artwork - identificador del artwork
 * dead_year - año en que murió el artista
-
 
  -- Indices:
 * semantic_event_dead_artist_ix
 * semantic_event_dead_year_ix
 
 
-
-Para la segunda tabla, `event_create_artworks` contiene los eventos sobre si el artista crea una obra en cierto año, se conforma por las siguientes variables:
+La tabla de eventos `event_create_artworks` contiene los eventos sobre si el artista crea una obra en cierto año, se conforma por las siguientes variables:
 
 * artist - identificador del artista.
 * artwork - identificador de la obra.
@@ -207,11 +224,3 @@ Para la segunda tabla, `event_create_artworks` contiene los eventos sobre si el 
 * semantic_event_create_artworks_artwork_century_ix
 
 se tomará en cuenta al artista como la entidad, agregando como evento la década en que se está llevando a cabo
-
-### Cohort
-
-Para la elaboración del cohort, se utilizará una variable dinámica que en cada periodo determina si el artista está vivo, de modo que una de las variables de gran importancia aquí sería `e_type`.
-
-* e_type - nos indica si el artista se encuentra muerto, vivo o si se desconoce la información.
-
-Durante la creación de esta tabla, se creó la variable e_type con el objetivo de clasificar si el artista esta vivo, muerto, o se desconoce la información. No usamos el tipo booleano porque tenemos tres categorías. Es importante mencionar que esta variable deberá ser dinámica debido a que podrían generarse errores en el momento de intentar realizar predicciones.

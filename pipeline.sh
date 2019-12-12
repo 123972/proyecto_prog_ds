@@ -31,3 +31,5 @@ python moma.py create-schemas
 python moma.py create-raw-tables
 python moma.py load-moma
 python moma.py to-cleaned
+python moma.py to-semantic
+
